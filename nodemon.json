@@ -1,0 +1,10 @@
+{
+  "env": {
+    "DB_USER": "admin",
+    "DB_PASSWORD": "XB$8ka4^s#ZufX",
+    "DB_NAME": "lecznica",
+    "DB_HOST": "localhost",
+    "FRONTEND_URL": "http://localhost:5173",
+    "JWT_KEY": "supersecret_dont_share"
+  }
+}
