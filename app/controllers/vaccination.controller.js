@@ -1,7 +1,12 @@
 const db = require('../models');
 const HttpError = require('../utils/http-error');
 const Vaccination = db.vaccinations;
-const {stringRequiredValidator, stringValidator, numberValidator, dateValidator} = require('../utils/validators');
+const {
+    stringRequiredValidator,
+    stringValidator,
+    numberValidator,
+    dateValidator,
+} = require('../utils/validators');
 
 exports.findAll = async (req, res, next) => {
     let data;
@@ -10,15 +15,31 @@ exports.findAll = async (req, res, next) => {
         data = await Vaccination.findAll();
         res.status(200).json(data);
     } catch (err) {
-        const error = new HttpError('Fetching vaccinations failed, please try again.', 500);
+        const error = new HttpError(
+            'Fetching vaccinations failed, please try again.',
+            500
+        );
         return next(error);
     }
 };
 
 exports.create = async (req, res, next) => {
-    const {type, serial_number, apply_date, expiration_date, notes, appointmentId} = req.body;
+    const {
+        type,
+        serial_number,
+        apply_date,
+        expiration_date,
+        notes,
+        appointmentId,
+    } = req.body;
 
-    if (!stringRequiredValidator(type) || !stringRequiredValidator(serial_number) || !dateValidator(apply_date) || !dateValidator(expiration_date) || !numberValidator(appointmentId)) {
+    if (
+        !stringRequiredValidator(type) ||
+        !stringRequiredValidator(serial_number) ||
+        !dateValidator(apply_date) ||
+        !dateValidator(expiration_date) ||
+        !numberValidator(appointmentId)
+    ) {
         const error = new HttpError('invalid_args', 400);
         return next(error);
     }
@@ -29,7 +50,7 @@ exports.create = async (req, res, next) => {
         apply_date,
         expiration_date,
         appointmentId,
-        notes: stringValidator(notes) ? notes : ''
+        notes: stringValidator(notes) ? notes : '',
     };
 
     const newVaccination = Vaccination.build(data);
@@ -38,15 +59,25 @@ exports.create = async (req, res, next) => {
         const result = await newVaccination.save();
         res.status(201).json(result);
     } catch (err) {
-        console.error('err', err)
-        const error = new HttpError('Cannot create vaccination, please try again.', 500);
+        console.error('err', err);
+        const error = new HttpError(
+            'Cannot create vaccination, please try again.',
+            500
+        );
         return next(error);
     }
 };
 
 exports.update = async (req, res, next) => {
     const id = req.params.id;
-    const {type, serial_number, apply_date, expiration_date, notes, appointmentId} = req.body;
+    const {
+        type,
+        serial_number,
+        apply_date,
+        expiration_date,
+        notes,
+        appointmentId,
+    } = req.body;
 
     if (!id) {
         const error = new HttpError('Wrong vaccination id.', 400);
@@ -80,12 +111,15 @@ exports.update = async (req, res, next) => {
             res.status(201).json(data);
         } else {
             res.status(400).send({
-                message: `Cannot update vaccination with id=${id}. Maybe vaccination was not found or args are not valid!`
+                message: `Cannot update vaccination with id=${id}. Maybe vaccination was not found or args are not valid!`,
             });
         }
     } catch (err) {
         console.error(err);
-        const error = new HttpError('Cannot update vaccination, please try again.', 500);
+        const error = new HttpError(
+            'Cannot update vaccination, please try again.',
+            500
+        );
         return next(error);
     }
 };

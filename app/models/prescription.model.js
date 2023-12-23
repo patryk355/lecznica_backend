@@ -1,32 +1,32 @@
 const {DataTypes} = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
-    const Prescription = sequelize.define("prescriptions", {
+    const Prescription = sequelize.define('prescriptions', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false
+            allowNull: false,
         },
         number: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+            type: DataTypes.STRING(255),
+            allowNull: false,
         },
         date: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
         },
         drug_name: {
             type: DataTypes.STRING(255),
-            allowNull: false
+            allowNull: false,
         },
         dose: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: false,
         },
         packages_amount: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
     });
 
